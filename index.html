@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="https://p7.hiclipart.com/preview/41/946/477/fruit-preserves-marmalade-blueberry-jar-jar.jpg">
+  <title>The Jammin' Couple</title>
+  <link rel="stylesheet" href="css/main1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TimelineMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.6/plugins/animation.gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <section class="header">
+    <header>
+      <h1>The Jammin' Couple</h1>
+      <nav>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">PRODUCTS</a></li>
+        <li><a href="#">SHOP</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </nav>
+      <p>FRESH, NATURAL, and ORGANIC MARMALADE</p>
+    </header>
+  </section>
+  <section class="cover">
+    <div class="fade">
+      <h2>The Jammin' Couple</h2>
+      <hr>
+      <h3>FRESH, NATURAL, and ORGANIC MARMALADE</h3>
+    </div>
+    <div class="btn">
+      <button type="button" name="button">SHOP</button>
+    </div>
+  </section>
+  <section class="product">
+    <blockquote><i>"A wise bear always keeps a marmalade sandwich in his hat in case of emergency"</i><span></span></blockquote>
+    <img id="store" src="css/img/store.jpg" alt="store">
+    <img id="product" src="css/img/products.jpg" alt="products">
+    <div id="box"></div>
+  </section>
+  <script type="text/javascript">
+    // ----------fadeIn.onLoad---------------//
+    $(document).ready(function() {
+      $('div.fade').fadeIn(1000).removeClass('hidden');
+    });
+    //-------------fadeIn.onScrollHeader------------//
+    $(document).ready(function() {
+      $(window).scroll(function() {
+        if ($(this).scrollTop() > 0) {
+          $(".header").css({
+            "background-color": "#f5f5f5f2"
+          })
+        } else {
+          $(".header").css({
+            "background-color": "#f5f5f5"
+          })
+        }
+      })
+    })
+    //--------------slideIn.onScrollProduct-------------//
+    var tl = new TimelineMax({
+      onUpdate: updatePercentage
+    });
+    var tl2 = new TimelineMax();
+    const controller = new ScrollMagic.Controller();
+
+    tl.from('blockquote', .5, {
+      x: 200,
+      opacity: 0
+    });
+    tl.from('span', 1, {
+      width: 0
+    }, "=-.5");
+    tl.from('#product', 1, {
+      x: -200,
+      opacity: 0,
+      ease: Power4.easeInOut
+    }, "=-1");
+    tl.from('#store', 1, {
+      x: 200,
+      opacity: 0,
+      ease: Power4.easeInOut
+    }, "=-.7");
+
+    tl2.from("#box", 1, {
+      opacity: 0,
+      scale: 0
+    });
+    tl2.to("#box", .5, {
+      left: "20%",
+      scale: 1.3,
+      borderColor: 'white',
+      borderWidth: 12,
+      boxShadow: '1px 1px 0px 0px rgba(0,0,0,0.09)'
+    })
+
+    const scene = new ScrollMagic.Scene({
+        triggerElement: ".product",
+        triggerHook: "onLeave",
+        duration: "100%"
+      })
+      .setPin(".product")
+      .setTween(tl)
+      .addTo(controller);
+
+    const scene2 = new ScrollMagic.Scene({
+        triggerElement: "blockquote"
+      })
+      .setTween(tl2)
+      .addTo(controller);
+
+
+    function updatePercentage() {
+      //percent.innerHTML = (tl.progress() *100 ).toFixed();
+      tl.progress();
+      console.log(tl.progress());
+    }
+    //----------scrollPosition------------------//
+    $(window).scroll(example);
+
+    function example() {
+      var tempScrollTop = $(window).scrollTop();
+      console.log("Scroll from Top: " + tempScrollTop.toString());
+    };
+  </script>
+</body>
+
+</html>
